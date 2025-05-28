@@ -1,20 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import FormInput from "@/app/component/AppInput/AppInput";
 import AppButton from "@/app/component/AppButton/AppButton";
-
 import logo from "../../../../public/images/coldbrew.png";
 import Slider_1 from "../../../../public/images/slider_1.jpg";
 import Slider_2 from "../../../../public/images/slider_2.jpg";
 import Slider_3 from "../../../../public/images/slider_3.jpg";
+import { useAuth } from "@/Context/authContext";
 
 const Login = () => {
-  const router = useRouter();
+  const { login, isLoading } = useAuth(); // Use the auth context
   const [currentSlide, setCurrentSlide] = useState(0);
   const slides = [Slider_1, Slider_2, Slider_3];
+
+  // Form State
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Error State
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -23,12 +30,43 @@ const Login = () => {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  const handleLogin = () => {
-    router.push("/dashboard");
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleLogin = async () => {
+    let valid = true;
+
+    // Reset errors
+    setEmailError("");
+    setPasswordError("");
+
+    if (!email.trim()) {
+      setEmailError("Email is required.");
+      valid = false;
+    } else if (!validateEmail(email)) {
+      setEmailError("Invalid email address.");
+      valid = false;
+    }
+
+    if (!password.trim()) {
+      setPasswordError("Password is required.");
+      valid = false;
+    }
+
+    if (valid) {
+      try {
+        await login(email, password); // Call the login function from AuthContext
+      } catch (error) {
+        // Error handling is managed in the AuthProvider's login function
+      }
+    }
   };
 
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-gray-50">
+      {/* Left Image Slider */}
       <div className="hidden md:block relative h-screen overflow-hidden">
         {slides.map((slide, index) => (
           <Image
@@ -57,6 +95,7 @@ const Login = () => {
         </div>
       </div>
 
+      {/* Login Form */}
       <div className="flex items-center justify-center p-4 sm:p-6 md:p-12">
         <div className="w-full max-w-md p-6 sm:p-8">
           <Image
@@ -78,7 +117,9 @@ const Login = () => {
               name="email"
               label="Email"
               placeholder="Enter your email"
-              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={emailError}
               autoComplete="email"
             />
             <FormInput
@@ -88,10 +129,16 @@ const Login = () => {
               label="Password"
               placeholder="Enter your password"
               showPasswordToggle
-              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={passwordError}
               autoComplete="current-password"
             />
-            <AppButton label="Sign In" onClick={handleLogin} />
+            <AppButton
+              label={isLoading ? "Signing In..." : "Sign In"}
+              onClick={handleLogin}
+              disabled={isLoading}
+            />
           </div>
         </div>
       </div>
