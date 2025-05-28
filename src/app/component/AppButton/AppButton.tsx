@@ -5,6 +5,7 @@ type AppButtonProps = {
   onClick: () => void;
   disabled?: boolean;
   loading?: boolean;
+  className?: string;
 };
 
 const AppButton: React.FC<AppButtonProps> = ({
@@ -12,13 +13,14 @@ const AppButton: React.FC<AppButtonProps> = ({
   onClick,
   disabled = false,
   loading = false,
+  className = "",
 }) => {
   return (
     <div>
       <button
         disabled={disabled}
         onClick={onClick}
-        className="w-full bg-[#BE5103] hover:bg-amber-900 text-lg text-white font-semibold py-2 px-4 rounded-md cursor-pointer flex items-center justify-center gap-2"
+        className={`w-full bg-[#BE5103] hover:bg-amber-900 text-lg text-white font-semibold py-2 px-4 rounded-md cursor-pointer flex items-center justify-center gap-2 ${className}`}
       >
         {loading && (
           <svg
