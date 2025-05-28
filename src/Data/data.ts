@@ -5,6 +5,10 @@ import { PiCity } from "react-icons/pi";
 import { IoCafeOutline, IoNewspaperOutline } from "react-icons/io5";
 import { VscEditorLayout } from "react-icons/vsc";
 import { MenuItem } from "@/Types/types";
+import { MdOutlinePrivacyTip } from "react-icons/md";
+import { PiNotepad } from "react-icons/pi";
+import { FaBuysellads } from "react-icons/fa";
+import { MdOutlineReviews } from "react-icons/md";
 
 export const menuItems: MenuItem[] = [
   {
@@ -19,22 +23,42 @@ export const menuItems: MenuItem[] = [
   },
   {
     icon: PiCity,
-    label: "Manage Cities",
-    href: "/manageCities",
+    label: "Manage Areas",
+    href: "/manageAreas",
   },
   {
     icon: IoCafeOutline,
-    label: "Cafe",
-    href: "/cafe",
+    label: "Manage Cafes",
+    href: "/dashboard",
   },
   {
     icon: VscEditorLayout,
     label: "Editor Choice",
-    href: "/editorChoice",
+    href: "/dashboard",
   },
   {
     icon: IoNewspaperOutline,
-    label: "NewsLetter",
-    href: "/newsletter",
+    label: "News Letter",
+    href: "/dashboard",
+  },
+  {
+    icon: MdOutlineReviews,
+    label: "Manage Reviews",
+    href: "/dashboard",
+  },
+  {
+    icon: FaBuysellads,
+    label: "Manage Ads",
+    href: "/dashboard",
+  },
+  {
+    icon: PiNotepad,
+    label: "Terms & Conditions",
+    href: "/dashboard",
+  },
+  {
+    icon: MdOutlinePrivacyTip,
+    label: "Privacy & Policy",
+    href: "/dashboard",
   },
 ];
