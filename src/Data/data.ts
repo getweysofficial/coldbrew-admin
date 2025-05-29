@@ -23,8 +23,8 @@ export const menuItems: MenuItem[] = [
   },
   {
     icon: PiCity,
-    label: "Manage Areas",
-    href: "/manageAreas",
+    label: "Manage Cities",
+    href: "/manageCities",
   },
   {
     icon: IoCafeOutline,
